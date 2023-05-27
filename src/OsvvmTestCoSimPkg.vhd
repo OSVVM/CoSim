@@ -290,6 +290,7 @@ package body OsvvmTestCoSimPkg is
     variable WrDataInt       : integer ;
     variable TestName        : string(1 to VPBurstSize) ;
     variable Available       : boolean ;
+    variable ModelID         : AlertLogIDType ; 
 
   begin
 
@@ -370,6 +371,28 @@ package body OsvvmTestCoSimPkg is
 
                 end loop;
               end if ;
+
+            when BURST_DATA_CHECK =>
+
+              GetAlertLogID(ManagerRec, ModelID) ; 
+              ReadBurst(ManagerRec, Address(VPAddrWidth-1 downto  0), VPBurstSize) ;
+
+              -- Check Burst
+              -- Pop the bytes from the read fifo and write them to the co-sim receive buffer
+              RdData := (others => '0');
+              for bidx in 0 to VPBurstSize-1 loop
+                -- Get Byte from read fifo
+                Pop(ManagerRec.ReadBurstFifo, RdData(7 downto 0)) ;
+                -- Get Byte from co-sim interface
+                VGetBurstWrByte(NodeNum, bidx, WrDataInt) ;
+                WrByteData := to_signed(WrDataInt, WrByteData'length) ;
+                -- Check
+                AffirmIfEqual(ModelID, RdData(7 downto 0), std_logic_vector(WrByteData(7 downto 0)),
+                  "Burst Read Address: " & to_hxstring(Address(VPAddrWidth-1 downto  0)) & 
+                  ", Byte number: " & to_string(bidx) & 
+                  ", Byte Data ", 
+                  IsLogEnabled(ModelID, INFO) ) ;
+              end loop;
 
             when BURST_INCR =>
 
