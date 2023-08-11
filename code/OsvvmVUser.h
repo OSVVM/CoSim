@@ -73,9 +73,12 @@
 // In windows using the FLI, a \n in the printf format string causes
 // two lines to be advanced, so replace new lines with carriage returns
 // which seems to work
-# ifndef ALDEC
-#  ifdef _WIN32
 
+// ** This does not seem to be the case in MSYS2 MINGW32/64 terminal, so add option to turn off
+#define REPLACE_NEWLINES          false
+
+# ifndef ALDEC
+#  if defined (_WIN32) && (REPLACE_NEWLINES)
 # define VPrint(format, ...) {int len;                                             \
                               char formbuf[256];                                   \
                               strncpy(formbuf, format, 255);                       \
