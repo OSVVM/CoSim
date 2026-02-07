@@ -62,7 +62,7 @@ OSTYPE:=$(shell uname)
 SRCDIR             = code
 TESTDIR            = $(OPDIR)
 VOBJDIR            = $(TESTDIR)/obj
-PCIEDIR            = ../PCIe
+PCIEDIR            = ../CoSimPCIe
 LTSSMDIR           = $(PCIEDIR)/ltssm
 
 # Derive correct PCIe co-sim library

@@ -53,7 +53,7 @@ ALDECDIR           =
 SRCDIR             = code
 TESTDIR            = $(OPDIR)
 VOBJDIR            = $(TESTDIR)/obj
-PCIEDIR            = ../PCIe
+PCIEDIR            = ../CoSimPCIe
 LTSSMDIR           = $(PCIEDIR)/ltssm
 
 PCIELIB            = pcie_aldec_win64

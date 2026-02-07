@@ -72,6 +72,6 @@ include ./testbench/TbAxi4Stream
 include ./testbench/TestCases_Axi4Stream
 
 # Analyze PCIe testbench and run tests on it
-include  ../PCIe/testbench
-include  ../PCIe/testbench/tests.pro
+include  ../CoSimPCIe/testbench
+include  ../CoSimPCIe/testbench/tests.pro
 
