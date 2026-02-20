@@ -74,18 +74,12 @@ extern "C" void VUserMain0()
     uint16_t data16, wdata16, rdata16;
     uint8_t  data8,  wdata8,  rdata8;
     uint8_t  wbuf[4096], rbuf[4096];
+    int      tcount0, tcount1;
 
     int rdcount = 0;
     int wrcount = 0;
-
-    int tcount0 = cosim.transGetTransactionCount();
-    int tcount1 = cosim.transGetTransactionCount();
-
-    if (tcount1 != (tcount0 + 1))
-    {
-        VPrint("***ERROR: transaction count increment error\n");
-        error = true;
-    }
+    
+    tcount0 = cosim.transGetTransactionCount();
 
     // -------------------------------
     // Test asynchronous writes with 32 bit data
@@ -101,6 +95,14 @@ extern "C" void VUserMain0()
 
     // Blocking ensure all async calls have completed
     cosim.transWaitForTransaction();
+
+    tcount1 = cosim.transGetTransactionCount();
+
+    if (tcount1 != (tcount0 + 4))
+    {
+        VPrint("***ERROR: transaction count increment error (tcount0 = %d, tcount1 = %d difference expected = %d)\n", tcount0, tcount1, 4);
+        error = true;
+    }
 
     for (i = 0; i < 4; i++)
     {

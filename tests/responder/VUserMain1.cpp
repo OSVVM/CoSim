@@ -133,17 +133,7 @@ extern "C" void VUserMain1()
     uint32_t expaddr;
     bool     avail;
     int      tidx = 0;
-
-    // ------------------------------------
-    // Test respGetTransactionCount
-    int count1 = sub.respGetTransactionCount();
-    int count2 = sub.respGetTransactionCount();
-
-    if (count2 != count1+1)
-    {
-        VPrint("***ERROR: unexpected count from respGetTransactionCount. Got %d. Exp %d", count2, count1+1);
-        error = true;
-    }
+    int      totalcount;
 
     // ------------------------------------
     // Check GetWrite and TryGetWrite
@@ -469,7 +459,8 @@ extern "C" void VUserMain1()
 
     // ------------------------------------
     // Test respGetWriteTransactionCount,
-    // respGetReadTransactionCount
+    // respGetReadTransactionCount and
+    // respGetTransactionCount
 
     sub.tick(10);
 
@@ -482,6 +473,14 @@ extern "C" void VUserMain1()
     if (rcount != sub.respGetReadTransactionCount())
     {
         VPrint("***ERROR: mismatch in read transaction count from respGetReadTransactionCount. Got %d. Exp %d\n", sub.respGetReadTransactionCount(), rcount);
+        error = true;
+    }
+
+    totalcount = sub.respGetTransactionCount();
+
+    if (totalcount != (wcount + rcount))
+    {
+        VPrint("***ERROR: mismatch in  transaction count from respGetTransactionCount. Got %d. Exp %d\n", totalcount, rcount);
         error = true;
     }
 
