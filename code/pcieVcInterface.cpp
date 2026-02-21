@@ -161,8 +161,8 @@ void pcieVcInterface::InputCallback(pPkt_t pkt, int status)
         // If a successful completion with data, extract the TPL payload data
         else if (pkt->ByteCount)
         {
-            // Size the buffer for the incoming data
-            rxbufq.back().rxbuf.resize(pkt->ByteCount);
+            // Size the buffer for the incoming data, plus offset 
+            rxbufq.back().rxbuf.resize(pkt->ByteCount + 4);
 
             // Get a pointer to the start of the payload data
             pPktData_t payload = GET_TLP_PAYLOAD_PTR(pkt->data);
@@ -257,7 +257,8 @@ void pcieVcInterface::InputCallback(pPkt_t pkt, int status)
 
         if (pkt->ByteCount)
         {
-            reqbufq.back().wrbuf.resize(pkt->ByteCount);
+            // Size the buffer for the incoming data, plus offset
+            reqbufq.back().wrbuf.resize(pkt->ByteCount + 4);
 
             // Get a pointer to the start of the payload data
             pPktData_t payload = GET_TLP_PAYLOAD_PTR(pkt->data) + offset;
