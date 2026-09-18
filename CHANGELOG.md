@@ -2,6 +2,7 @@
 
 | Revision  |  Release Summary | 
 ------------|-------------------
+| ????.??   | streamGetBurst updated to add returning RX byte count |
 | 2026.08   | Added support for DLL and PHY traffic generation over MIT for PCIe VC |
 |           | Added support for burst word transactions |
 |           | Updated rv32 to 1.3.6 |
@@ -16,6 +17,9 @@
 | 2023.07   | Updates to RISC-V ISS libraries and headers for FreeRTOS support |
 | 2023.05   | Support for split transactions, responder, streaming and checking |
 | 2023.01   | Initial release |
+
+## ????.?? September 2026
+- Variants of streamGetBurst added to return RX byte count when bytesize parameter passed in as *int
 
 ## 2026.08 August 2026
 - Added support for DLL and PHY traffic generation over MIT for PCIe VC with

@@ -249,39 +249,40 @@ VPROC_RTN_TYPE VTrans (VTRANS_PARAMS)
     VPParam_int          = 0;
 
     // Sample data inputs and update node receive state
-    ns[node]->rcv_buf.data_in        = args[argIdx++];
-    ns[node]->rcv_buf.data_in_hi     = args[argIdx++];
+    ns[node]->rcv_buf.data_in         = args[argIdx++];
+    ns[node]->rcv_buf.data_in_hi      = args[argIdx++];
 
     // Skip over data width output
     argIdx               += 1;
 
     // Sample address and update node receive state
-    ns[node]->rcv_buf.addr_in        = args[argIdx++];
-    ns[node]->rcv_buf.addr_in_hi     = args[argIdx++];
+    ns[node]->rcv_buf.addr_in         = args[argIdx++];
+    ns[node]->rcv_buf.addr_in_hi      = args[argIdx++];
+
+    ns[node]->rcv_buf.num_burst_bytes = VPCount;
 
 #else
     // Sample data inputs and update node receive state
     if (ns[node]->send_buf.type != trans32_burst)
     {
-        ns[node]->rcv_buf.data_in    = *VPData;
-        ns[node]->rcv_buf.data_in_hi = *VPDataHi;
+        ns[node]->rcv_buf.data_in     = *VPData;
+        ns[node]->rcv_buf.data_in_hi  = *VPDataHi;
     }
 
     // Sample Address and update node receive state
-    ns[node]->rcv_buf.addr_in        = *VPAddr;
-    ns[node]->rcv_buf.addr_in_hi     = *VPAddrHi;
+    ns[node]->rcv_buf.addr_in         = *VPAddr;
+    ns[node]->rcv_buf.addr_in_hi      = *VPAddrHi;
+
+    // Sample burst byte count
+    ns[node]->rcv_buf.num_burst_bytes = VPCount;
+
 #endif
 
-    if (ns[node]->send_buf.type == trans32_burst)
-    {
-        ns[node]->rcv_buf.num_burst_bytes = ns[node]->send_buf.num_burst_bytes;
-    }
-
     // Sample other inputs and update node receive state
-    ns[node]->rcv_buf.interrupt  = Interrupt;
-    ns[node]->rcv_buf.status     = VPStatus;
-    ns[node]->rcv_buf.count      = VPCount;
-    ns[node]->rcv_buf.countsec   = VPCountSec;
+    ns[node]->rcv_buf.interrupt       = Interrupt;
+    ns[node]->rcv_buf.status          = VPStatus;
+    ns[node]->rcv_buf.count           = VPCount;
+    ns[node]->rcv_buf.countsec        = VPCountSec;
 
     // Send message to VUser with input values
     DebugVPrint("VTrans(): setting rcv[%d] semaphore\n", node);
@@ -455,7 +456,7 @@ VPROC_RTN_TYPE VIrqVec (VIRQVEC_PARAMS)
     int args[VIRQVEC_NUM_ARGS];
 
     getVhpiParams(cb, args, VIRQVEC_NUM_ARGS);
-    
+
     int argIdx = 0;
     node = args[argIdx++];
     irq  = args[argIdx++];
@@ -481,7 +482,7 @@ VPROC_RTN_TYPE VUserValue (VUSERVALUE_PARAMS)
     int args[VUSERVALUE_NUM_ARGS];
 
     getVhpiParams(cb, args, VUSERVALUE_NUM_ARGS);
-    
+
     int argIdx = 0;
     node       = args[argIdx++];
     type       = args[argIdx++];

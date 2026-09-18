@@ -134,8 +134,9 @@ extern bool      VStreamUserGetCommon           (const int op, uint32_t *rdata, 
 extern bool      VStreamUserGetCommon           (const int op, uint64_t *rdata, int *status, const uint64_t wdata, const int param = 0,  const uint32_t node = 0);
 
 // Stream burst send and get common transaction functions
-extern bool      VStreamUserBurstSendCommon     (const int op, const int burst_type, uint8_t* data, const int bytesize, const int param = 0, const uint32_t node = 0);
-extern bool      VStreamUserBurstGetCommon      (const int op, const int param,      uint8_t* data, const int bytesize, int* status,         const uint32_t node = 0);
+extern bool      VStreamUserBurstSendCommon     (const int op, const int burst_type, uint8_t* data, const int  bytesize, const int param = 0, const uint32_t node = 0);
+extern bool      VStreamUserBurstGetCommon      (const int op, const int param,      uint8_t* data, const int  bytesize, int* status,         const uint32_t node = 0);
+extern bool      VStreamUserBurstGetCommon      (const int op, const int param,      uint8_t* data,       int *bytesize, int* status,         const uint32_t node = 0);
 
 extern int       VStreamWaitGetCount            (const int op, const bool txnrx, const uint32_t node = 0);
 

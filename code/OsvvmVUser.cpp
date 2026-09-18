@@ -991,6 +991,48 @@ bool VStreamUserBurstGetCommon (const int op, const int param, uint8_t* data, co
 }
 
 // -------------------------------------------------------------------------
+// VStreamUserBurstGetCommon()
+//
+// Common function for Get related stream transactions
+// -------------------------------------------------------------------------
+
+bool VStreamUserBurstGetCommon (const int op, const int param, uint8_t* data, int *bytesize, int* status, const uint32_t node)
+{
+    rcv_buf_t    rbuf;
+    send_buf_t   sbuf;
+
+    VInitSendBuf(sbuf);
+
+    sbuf.type            = stream_get_burst;
+    sbuf.op              = (addr_bus_trans_op_t)op;
+    sbuf.num_burst_bytes = *bytesize % DATABUF_SIZE;
+    sbuf.param           = param;
+
+    VExch(&sbuf, &rbuf, node);
+
+    *status = rbuf.status;
+
+    // Return data for normal/data transactions, but only if not a try with none available
+    if ((param == BURST_NORM || param == BURST_DATA) && !((stream_operation_t)sbuf.op == TRY_GET_BURST && !rbuf.interrupt))
+    {
+        for (int idx = 0; idx < rbuf.num_burst_bytes; idx++)
+        {
+            data[idx] = rbuf.databuf[idx];
+        }
+        
+        *bytesize = rbuf.num_burst_bytes;
+    }
+    else
+    {
+        *bytesize = 0;
+    }
+    
+
+    // Return available status (sent back in unused interrupt field)
+    return rbuf.interrupt;
+}
+
+// -------------------------------------------------------------------------
 // VStreamWaitGetCount()
 //
 // Common function for transaction wait and get count operation exchange

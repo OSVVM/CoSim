@@ -116,6 +116,11 @@ public:
       void     streamBurstGet                 (const int bytesize)                                         {int status; VStreamUserBurstGetCommon    (GET_BURST, BURST_TRANS, NULL, bytesize, &status, node);}
       void     streamBurstGet                 (const int bytesize,        int *status)                     {VStreamUserBurstGetCommon                (GET_BURST, BURST_TRANS, NULL, bytesize, status, node);}
 
+      void     streamBurstGet                 (uint8_t  *data,            int *bytesize)                   {int status; VStreamUserBurstGetCommon    (GET_BURST, BURST_NORM,  data, bytesize, &status, node);}
+      void     streamBurstGet                 (uint8_t  *data,            int *bytesize, int *status)      {VStreamUserBurstGetCommon                (GET_BURST, BURST_NORM,  data, bytesize, status, node);}
+      void     streamBurstGet                 (      int *bytesize)                                        {int status; VStreamUserBurstGetCommon    (GET_BURST, BURST_TRANS, NULL, bytesize, &status, node);}
+      void     streamBurstGet                 (      int *bytesize,       int *status)                     {VStreamUserBurstGetCommon                (GET_BURST, BURST_TRANS, NULL, bytesize, status, node);}
+
       void     streamBurstCheck               (uint8_t  *data,      const int bytesize, const int param=1) {VStreamUserBurstSendCommon               (CHECK_BURST, BURST_NORM,  data, bytesize, param, node);}
       void     streamBurstCheck               (const int bytesize,  const int param=1)                     {VStreamUserBurstSendCommon               (CHECK_BURST, BURST_TRANS, NULL, bytesize, param, node);}
       void     streamBurstCheckIncrement      (uint8_t   data,      const int bytesize, const int param=1) {VStreamUserBurstSendCommon               (CHECK_BURST, BURST_INCR_CHECK, &data, bytesize, param, node);}
@@ -134,10 +139,13 @@ public:
       void     streamBurstPushRandom          (uint8_t   data,      const int bytesize)                    {VStreamUserBurstSendCommon               (SEND_BURST,  BURST_RAND_PUSH, &data, bytesize, 0, node);}
       void     streamBurstPushCheckRandom     (uint8_t   data,      const int bytesize)                    {VStreamUserBurstSendCommon               (CHECK_BURST, BURST_RAND_PUSH, &data, bytesize, 0, node);}
 
-      bool     streamBurstTryGet              (const int bytesize,  const int param=1)                     {int status; return VStreamUserBurstGetCommon(TRY_GET_BURST,   BURST_TRANS,        NULL, bytesize, &status, node);}
-      bool     streamBurstTryGet              (uint8_t  *data,      const int bytesize, const int param=1) {int status; return VStreamUserBurstGetCommon(TRY_GET_BURST,   BURST_NORM,       data, bytesize, &status, node);}
-      bool     streamBurstTryCheck            (const int bytesize,  const int param=1)                     {return VStreamUserBurstSendCommon           (TRY_CHECK_BURST, BURST_TRANS,        NULL, bytesize, param,   node);}
-      bool     streamBurstTryCheck            (uint8_t  *data,      const int bytesize, const int param=1) {return VStreamUserBurstSendCommon           (TRY_CHECK_BURST, BURST_NORM,       data, bytesize, param,   node);}
+      bool     streamBurstTryGet              (const int  bytesize,  const int  param=1)                     {int status; return VStreamUserBurstGetCommon(TRY_GET_BURST,   BURST_TRANS,      NULL, bytesize, &status, node);}
+      bool     streamBurstTryGet              (uint8_t   *data,      const int  bytesize, const int param=1) {int status; return VStreamUserBurstGetCommon(TRY_GET_BURST,   BURST_NORM,       data, bytesize, &status, node);}
+      bool     streamBurstTryGet              (      int *bytesize,  const int  param=1)                     {int status; return VStreamUserBurstGetCommon(TRY_GET_BURST,   BURST_TRANS,      NULL, bytesize, &status, node);}
+      bool     streamBurstTryGet              (uint8_t   *data,            int *bytesize, const int param=1) {int status; return VStreamUserBurstGetCommon(TRY_GET_BURST,   BURST_NORM,       data, bytesize, &status, node);}
+
+      bool     streamBurstTryCheck            (const int bytesize,  const int param=1)                     {return VStreamUserBurstSendCommon           (TRY_CHECK_BURST, BURST_TRANS,      NULL,  bytesize, param,   node);}
+      bool     streamBurstTryCheck            (uint8_t  *data,      const int bytesize, const int param=1) {return VStreamUserBurstSendCommon           (TRY_CHECK_BURST, BURST_NORM,       data,  bytesize, param,   node);}
       bool     streamBurstTryCheckIncrement   (uint8_t   data,      const int bytesize, const int param=1) {return VStreamUserBurstSendCommon           (TRY_CHECK_BURST, BURST_INCR_CHECK, &data, bytesize, param,   node);}
       bool     streamBurstTryCheckRandom      (uint8_t   data,      const int bytesize, const int param=1) {return VStreamUserBurstSendCommon           (TRY_CHECK_BURST, BURST_RAND_CHECK, &data, bytesize, param,   node);}
 

@@ -88,6 +88,7 @@ extern "C" void VUserMain0()
 
     int      bufidx = 0;
     int      ridx = 0;
+    int      bytecount = 0;
 
     bool                  error = false;
     std::string           test_name("CoSim_ethernet_streams");
@@ -111,11 +112,11 @@ extern "C" void VUserMain0()
     txrx.streamBurstSend(&TestData0[bufidx], 256); bufidx += 256;
 
     // Get some burst data from RX stream
-    txrx.streamBurstGet(&RxData[ridx], 128);       ridx += 128;
-    txrx.streamBurstGet(&RxData[ridx], 128);       ridx += 128;
-    txrx.streamBurstGet(&RxData[ridx], 16);        ridx += 16;
-    txrx.streamBurstGet(&RxData[ridx], 16);        ridx += 16;
-    txrx.streamBurstGet(&RxData[ridx], 32);        ridx += 32;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
 
     // Send some burst of data over TX stream
     txrx.streamBurstSend(&TestData0[bufidx], 32);  bufidx += 32;
@@ -123,16 +124,16 @@ extern "C" void VUserMain0()
     txrx.streamBurstSend(&TestData0[bufidx], 128); bufidx += 128;
 
     // Get some burst data from RX stream
-    txrx.streamBurstGet(&RxData[ridx], 64);        ridx += 64;
-    txrx.streamBurstGet(&RxData[ridx], 128);       ridx += 128;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
 
     // Send some burst of data over TX stream
     txrx.streamBurstSend(&TestData0[bufidx], 256); bufidx += 256;
     txrx.streamBurstSend(&TestData0[bufidx], 256); bufidx += 256;
 
     // Get some burst data from RX stream
-    txrx.streamBurstGet(&RxData[ridx], 256);       ridx += 256;
-    txrx.streamBurstGet(&RxData[ridx], 256);       ridx += 256;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
+    txrx.streamBurstGet(&RxData[ridx], &bytecount); ridx += bytecount;
 
     // Check all the received data against that expected
     for (int idx = 0; idx < BUF_SIZE; idx++)
